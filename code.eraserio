@@ -1,0 +1,103 @@
+trainer [icon: user, color: blue]{
+  trainer_id serial pk
+  name varchar(15)
+  epxerience number
+  phone char(15)
+  avtar_url text
+
+  createdAt timestamp
+  updatedAt timestamp
+}
+
+client [icon: user] {
+  client_id serial pk
+  name varchar(15) NOT NULL
+  bodyweight number NOT NULL
+  height varchar(15)NOT NULL
+
+  createdAt string
+  updatedAt string
+}
+
+Fitness plans [icon: gcp-release-notes, color: orange] {
+  plan_id serial pk
+  trainer_id number fk
+
+  planeName varchar(15) NOT NULL
+  description varchar(500) NOT NULL 
+  duration varchar(15) NOT NULL
+  createdAt string 
+  updatedAt string
+}
+
+consultations [icons: notes, color:red] {
+  consultaion_id serial pk
+  trainer_id number fk 
+  client_id number fk
+
+  clientName varchar(15)
+  fitnessPlan varchar(15)
+  consult_time varchar(15) NOT NUll
+
+  bodyweight number
+  height number
+
+  createdAt string 
+  updatedAt string
+}
+
+Manage Subscriptions[icon: money]{
+  subs_id seral pk
+  client_id number fk
+  plan_id number fk
+  assignedTrainer_id numer fk
+
+  start string
+  end string
+  createdAt string 
+  updatedAt string
+}
+
+Progress [icon: progress, color: skyblue] {
+  progress_id serial pk
+  client_id number fk
+
+  height number
+  weight number
+}
+
+checkins[icon: activity, color: green]{
+  id serial pk
+  lastCheckins date
+  currentCheckIns date
+  weeklyCheckIn boolean
+} 
+Paid Clients [icon: user]{
+  paidClient_id serial pk
+  client_id number fk
+  plan_id number fk 
+
+  joined date NOT NULL
+  expired date NOT NULL
+
+  createdAt string 
+  updatedAt string
+}
+
+trainer < client
+
+trainer < consultations
+trainer < checkins
+trainer < Fitness plans
+trainer < Paid Clients
+
+client > Progress
+client < Fitness plans
+client <> Manage Subscriptions
+client > checkins
+client < consultations 
+client < Paid Clients
+
+Fitness plans < Paid Clients
+Fitness plans - Manage Subscriptions
+
