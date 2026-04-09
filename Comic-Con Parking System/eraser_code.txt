@@ -1,0 +1,115 @@
+Vehicles [icon: car, color: green] {
+  vehicle_id serial pk
+
+  vehicle_Name string
+  Type string
+  Vehicle_Number Number
+  color string
+}
+
+Parking Spot[icon: landmark,color: yellow] {
+  parking_spot_name string
+  parking_zone string
+  parking_level string
+  Total seat string 
+  Availability number
+  parking_spot_id serial pk
+}
+
+Parking Spot Location[icon: landmark, color: blue]{
+  
+  zone_location string
+  zone_name string
+  zone_contact_no Number
+  zone_id serial pk 
+  parking_spot_id fk
+}
+
+Reserved Parking Spot[icon: landmark, color: pink]{
+  reserve_spot_id serial pk
+  
+  exhibitors_id string
+  vip_guest_id string
+  staff_id string 
+  ev_charging_id string
+
+  parking_spot_id fk
+  zone_id fk
+}
+VIP's Record[icon: user, color: red]{
+  vip_name string
+  vip_age number
+  vip_contact number
+  vip_vehicle_name string
+  vip_Vehicle_Number Number
+  vip_vehicle_type string
+
+  vip_id serial pk 
+
+}
+
+Timings[icon: timer, color: white]{
+  
+  Entry_time time
+  Exit_time time 
+  
+  vehicle_id fk
+  parking_spot_id fk
+  zone_id fk 
+
+  Timing_id serial pk 
+
+} 
+Ticket[icon: ticket, color: orange]{
+  vehicle_id fk
+  parking_spot_id fk
+  zone_id fk 
+  ticket_type diffrent days | same venue for diff days 
+  seat_no Number 
+
+
+
+  ticket_id serial pk
+
+}
+
+Parking Availability [icon: parking, color: purple] {
+  parking_spot_id fk
+  zone_id fk 
+}
+
+Parking Charges [icon: money, color: black] {
+  Timing_id fk 
+  per_hour_pass Number
+  per_day_pass Number 
+  per_month_pass Number 
+
+  Total_bill respective_field charged
+
+}
+
+Payment Records[icon: data, color: green] {
+  vehicle_id fk
+  parking_spot_id fk
+  zone_id fk 
+  totalTime time 
+  
+  payment_id serial pk
+
+}
+
+Vehicles.vehicle_id  < Parking Spot.parking_spot_id
+Vehicles.Vehicle_Number - VIP's Record.vip_Vehicle_Number
+Vehicles.vehicle_id - Timings.Timing_id 
+Vehicles.vehicle_id - Ticket.ticket_id
+Vehicles.vehicle_id - Parking Charges
+
+
+Parking Spot.parking_spot_id < Reserved Parking Spot. zone_id
+Parking Spot.parking_spot_id< Parking Spot Location.zone_id
+Parking Spot.parking_spot_id<Parking Availability.parking_spot_id
+Parking Spot < Ticket
+Parking Spot.parking_spot_id  < Payment Records.payment_id
+
+Reserved Parking Spot.reserve_spot_id < Payment Records
+
