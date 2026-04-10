@@ -1,0 +1,116 @@
+Table Buildings {
+  building_id serial pk 
+  name string
+  location string
+
+  createdAt timestamp
+  updatedAt timestamp 
+
+}
+
+Table floor {
+  floor_id serial pk  
+  floor_no int
+
+  building_id fk
+
+  createdAt timestamp
+  updatedAt timestamp 
+
+}
+
+Table Elevators {
+  elevator_id serial pk
+  building_id fk
+  zone_name string 
+
+  createdAt timestamp
+  updatedAt timestamp 
+  
+
+  
+} 
+
+Table Elevators_Shafts {
+  shaft_id serial pk 
+  building_id fk
+  elevator_id fk 
+  elevator_shaft_zone string
+
+}
+
+Table Floor_Requests {
+  request_id serial pk
+  floor_id fk
+  direction String 
+  floor_no number 
+  elevator_id fk
+
+  building_id fk
+  status string 
+}
+
+Table Ride_Assignments {
+  ride_id serial pk
+  request_id fk 
+  elevator_id fk 
+
+}
+
+Table Ride_Logs {
+  logs_id serial pk 
+  elevator_id fk 
+  building_id fk
+  start_floor_id fk
+  end_floor_id fk
+  start_time time
+  end_time time 
+  status string 
+}
+
+Table Elevator_Status {
+  status_id serial pk
+  elevator_id fk
+  building_id fk
+  current_floor_id fk
+  status string 
+  updatedAt timestamp
+}
+
+Table Maintainance {
+  id serial pk 
+
+  elevator_id fk 
+  start date 
+  end date 
+  status string(pending,completed)
+
+}
+
+
+Ref: "Buildings"."building_id" < "floor"."floor_id"
+
+Ref: "Buildings"."building_id" < "Elevators"."elevator_id"
+
+Ref: "Elevators"."elevator_id" - "floor"."floor_id"
+
+Ref: "Buildings"."building_id" < "Elevators_Shafts"."shaft_id"
+
+Ref: "Elevators_Shafts"."shaft_id" - "Elevators"."elevator_id"
+
+Ref: "Floor_Requests"."request_id" - "Ride_Assignments"."ride_id"
+
+
+
+Ref: "Buildings"."building_id" - "Floor_Requests"."request_id"
+
+Ref: "Floor_Requests"."request_id" - "Elevators"."elevator_id"
+
+Ref: "floor"."floor_id" < "Floor_Requests"."request_id"
+
+Ref: "Elevators"."elevator_id" < "Ride_Logs"."logs_id"
+
+Ref: "Elevators"."elevator_id" < "Maintainance"."id"
+
+Ref: "Elevators"."elevator_id" < "Elevator_Status"."status_id"
+
